@@ -1,0 +1,19 @@
+{
+  "issue_number": 1,
+  "issue_title": "Design Agency Website",
+  "project_slug": "design-agency-website",
+  "project_dir": "projects/design-agency-website",
+  "current_stage": "plan",
+  "branch": "claude/issue-1-20260227-0750",
+  "updated_at": "20260227T075117Z",
+  "planning": {
+    "completed": true,
+    "scope": "Static HTML demo website with bold minimalist design",
+    "key_deliverables": [
+      "HTML structure",
+      "CSS styling with bold colors and typography",
+      "Synthetic content showcasing design ethos",
+      "Interactive values/principles presentation"
+    ]
+  }
+}
