@@ -1,0 +1,342 @@
+name: Code Project Pipeline
+
+on:
+  issues:
+    types: [labeled]
+  issue_comment:
+    types: [created]
+
+jobs:
+  code-project-action:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+      checks: read
+      statuses: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 20
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Determine Trigger Context
+        id: check-status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const payload = context.payload;
+            const issue = payload.issue;
+            const labels = (issue?.labels || []).map(label => label.name);
+
+            const kebabCase = (input) => {
+              return input
+                .toLowerCase()
+                .normalize('NFKD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+                .replace(/-{2,}/g, '-');
+            };
+
+            const statusLabels = [
+              'status:plan',
+              'status:design',
+              'status:test',
+              'status:implement',
+              'status:revise',
+            ];
+
+            let actionType = null;
+            let shouldTrigger = false;
+            let skip = false;
+            let reason = '';
+            let newLabel = null;
+            let latestCommentBody = '';
+
+            if (!issue) {
+              return { shouldTrigger: false, skip: true, reason: 'No issue context in payload' };
+            }
+
+            if (context.eventName === 'issues' && payload.action === 'labeled') {
+              newLabel = payload.label?.name || null;
+              if (statusLabels.includes(newLabel)) {
+                actionType = newLabel.replace('status:', '');
+                shouldTrigger = true;
+              }
+            }
+
+            if (context.eventName === 'issue_comment' && payload.action === 'created') {
+              const commenter = payload.comment?.user?.login || '';
+              const isBot = commenter.endsWith('[bot]') || payload.comment?.user?.type === 'Bot';
+              if (isBot) {
+                return { shouldTrigger: false, skip: true, reason: 'Ignoring bot comment' };
+              }
+
+              latestCommentBody = payload.comment?.body || '';
+              const hasReviseLabel = labels.includes('status:revise');
+              const commentWantsRevise = /^\/revise\b/i.test(latestCommentBody.trim());
+
+              if (hasReviseLabel || commentWantsRevise) {
+                actionType = 'revise';
+                shouldTrigger = true;
+              }
+            }
+
+            if (!actionType) {
+              reason = 'No matching workflow state transition';
+            }
+
+            const issueNumber = issue.number;
+            const issueTitle = issue.title || `issue-${issueNumber}`;
+            const titleSlug = kebabCase(issueTitle) || `issue-${issueNumber}`;
+
+            return {
+              shouldTrigger,
+              skip,
+              reason,
+              issueNumber,
+              issueTitle,
+              issueBody: issue.body || '',
+              actionType,
+              eventName: context.eventName,
+              newLabel,
+              labels,
+              titleSlug,
+              latestCommentBody,
+              statusLabels,
+            };
+          result-encoding: json
+
+      - name: Keep Single Status Label
+        if: fromJson(steps.check-status.outputs.result).shouldTrigger && fromJson(steps.check-status.outputs.result).eventName == 'issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const newLabel = context.payload.label?.name;
+            const labels = (issue.labels || []).map(label => label.name);
+            const statusLabels = ['status:plan', 'status:design', 'status:test', 'status:implement', 'status:revise'];
+
+            for (const label of statusLabels) {
+              if (label !== newLabel && labels.includes(label)) {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  name: label,
+                });
+              }
+            }
+
+      - name: Determine Claude Configuration
+        id: determine-config
+        if: fromJson(steps.check-status.outputs.result).shouldTrigger
+        run: |
+          ACTION_TYPE="${{ fromJson(steps.check-status.outputs.result).actionType }}"
+
+          case "$ACTION_TYPE" in
+            "plan")
+              echo "model=claude-opus-4-1-20250805" >> "$GITHUB_OUTPUT"
+              echo "tools=Read(*),Write(*.md),Edit(*.md),Grep(*)" >> "$GITHUB_OUTPUT"
+              echo "prompt_template=.github/prompts/plan.md" >> "$GITHUB_OUTPUT"
+              ;;
+            "design")
+              echo "model=claude-opus-4-1-20250805" >> "$GITHUB_OUTPUT"
+              echo "tools=Read(*),Write(*.md),Edit(*.md),Grep(*)" >> "$GITHUB_OUTPUT"
+              echo "prompt_template=.github/prompts/design.md" >> "$GITHUB_OUTPUT"
+              ;;
+            "test")
+              echo "model=claude-sonnet-4-6" >> "$GITHUB_OUTPUT"
+              echo "tools=Bash(*),Read(*),Write(*),Edit(*),MultiEdit(*),Grep(*)" >> "$GITHUB_OUTPUT"
+              echo "prompt_template=.github/prompts/test.md" >> "$GITHUB_OUTPUT"
+              ;;
+            "implement")
+              echo "model=claude-sonnet-4-6" >> "$GITHUB_OUTPUT"
+              echo "tools=Bash(*),Read(*),Write(*),Edit(*),MultiEdit(*),Grep(*)" >> "$GITHUB_OUTPUT"
+              echo "prompt_template=.github/prompts/implement.md" >> "$GITHUB_OUTPUT"
+              ;;
+            "revise")
+              echo "model=claude-sonnet-4-6" >> "$GITHUB_OUTPUT"
+              echo "tools=Bash(*),Read(*),Write(*),Edit(*),MultiEdit(*),Grep(*)" >> "$GITHUB_OUTPUT"
+              echo "prompt_template=.github/prompts/revise.md" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "model=claude-sonnet-4-6" >> "$GITHUB_OUTPUT"
+              echo "tools=Read(*),Grep(*)" >> "$GITHUB_OUTPUT"
+              echo "prompt_template=.github/prompts/plan.md" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+
+      - name: Prepare Project Directory
+        id: prep-dir
+        if: fromJson(steps.check-status.outputs.result).shouldTrigger
+        env:
+          ISSUE_NUMBER: ${{ fromJson(steps.check-status.outputs.result).issueNumber }}
+          ISSUE_TITLE: ${{ fromJson(steps.check-status.outputs.result).issueTitle }}
+          ISSUE_BODY: ${{ fromJson(steps.check-status.outputs.result).issueBody }}
+          TITLE_SLUG: ${{ fromJson(steps.check-status.outputs.result).titleSlug }}
+          ACTION_TYPE: ${{ fromJson(steps.check-status.outputs.result).actionType }}
+          LATEST_COMMENT_BODY: ${{ fromJson(steps.check-status.outputs.result).latestCommentBody }}
+        run: |
+          PROJECT_DIR="projects/${TITLE_SLUG}"
+          TIMESTAMP="$(date -u +'%Y%m%dT%H%M%SZ')"
+          BRANCH_NAME="codex/issue-${ISSUE_NUMBER}-${TITLE_SLUG}"
+
+          mkdir -p "${PROJECT_DIR}/context"
+          mkdir -p "${PROJECT_DIR}/planning"
+          mkdir -p "${PROJECT_DIR}/design"
+          mkdir -p "${PROJECT_DIR}/testing"
+          mkdir -p "${PROJECT_DIR}/implementation"
+          mkdir -p "${PROJECT_DIR}/review"
+          mkdir -p "${PROJECT_DIR}/comments"
+          mkdir -p "${PROJECT_DIR}/src"
+          mkdir -p "${PROJECT_DIR}/tests"
+
+          if [ ! -f "${PROJECT_DIR}/context/issue.md" ]; then
+            {
+              echo "# Issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
+              echo
+              echo "## Original Issue"
+              echo
+              echo "${ISSUE_BODY}"
+            } > "${PROJECT_DIR}/context/issue.md"
+          fi
+
+          if [ -n "${LATEST_COMMENT_BODY}" ]; then
+            {
+              echo "# Comment (${TIMESTAMP})"
+              echo
+              echo "${LATEST_COMMENT_BODY}"
+            } > "${PROJECT_DIR}/comments/${TIMESTAMP}.md"
+          fi
+
+          if [ ! -f "${PROJECT_DIR}/state.json" ]; then
+            printf '{\n  "issue_number": %s,\n  "issue_title": "%s",\n  "project_slug": "%s",\n  "project_dir": "%s",\n  "current_stage": "%s",\n  "branch": "%s",\n  "updated_at": "%s"\n}\n' \
+              "${ISSUE_NUMBER}" \
+              "$(printf '%s' "${ISSUE_TITLE}" | sed 's/"/\\"/g')" \
+              "${TITLE_SLUG}" \
+              "${PROJECT_DIR}" \
+              "${ACTION_TYPE}" \
+              "${BRANCH_NAME}" \
+              "${TIMESTAMP}" > "${PROJECT_DIR}/state.json"
+          else
+            tmp_file="$(mktemp)"
+            jq --arg stage "${ACTION_TYPE}" --arg ts "${TIMESTAMP}" '.current_stage = $stage | .updated_at = $ts' "${PROJECT_DIR}/state.json" > "$tmp_file" && mv "$tmp_file" "${PROJECT_DIR}/state.json"
+          fi
+
+          echo "project_dir=${PROJECT_DIR}" >> "$GITHUB_OUTPUT"
+          echo "branch_name=${BRANCH_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Add Start Comment
+        if: fromJson(steps.check-status.outputs.result).shouldTrigger
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const actionType = '${{ fromJson(steps.check-status.outputs.result).actionType }}';
+            const issueNumber = ${{ fromJson(steps.check-status.outputs.result).issueNumber }};
+            const marker = `Claude Code ${actionType.charAt(0).toUpperCase() + actionType.slice(1)} Stage`;
+            const emoji = { plan: '🧭', design: '🧱', test: '🧪', implement: '⚙️', revise: '🔁' };
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: `${emoji[actionType] || '🤖'} **${marker}**\n\nProcessing in \`${{ steps.prep-dir.outputs.project_dir }}\`.`
+            });
+
+      - name: Process Prompt Template
+        id: process-prompt
+        if: fromJson(steps.check-status.outputs.result).shouldTrigger
+        env:
+          ISSUE_NUMBER: ${{ fromJson(steps.check-status.outputs.result).issueNumber }}
+          ISSUE_TITLE: ${{ fromJson(steps.check-status.outputs.result).issueTitle }}
+          ISSUE_BODY: ${{ fromJson(steps.check-status.outputs.result).issueBody }}
+          ACTION_TYPE: ${{ fromJson(steps.check-status.outputs.result).actionType }}
+          LATEST_COMMENT_BODY: ${{ fromJson(steps.check-status.outputs.result).latestCommentBody }}
+          PROJECT_DIR: ${{ steps.prep-dir.outputs.project_dir }}
+        run: |
+          TEMPLATE_FILE="${{ steps.determine-config.outputs.prompt_template }}"
+          OUTPUT_FILE="/tmp/processed_prompt.md"
+          ./.github/scripts/process-prompt.sh "$TEMPLATE_FILE" "$OUTPUT_FILE"
+          {
+            echo "direct_prompt<<EOF"
+            cat "$OUTPUT_FILE"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Run Claude Action
+        if: fromJson(steps.check-status.outputs.result).shouldTrigger
+        uses: anthropics/claude-code-action@beta
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: ${{ steps.determine-config.outputs.model }}
+          direct_prompt: ${{ steps.process-prompt.outputs.direct_prompt }}
+          allowed_tools: ${{ steps.determine-config.outputs.tools }}
+          custom_instructions: |
+            This repository is a generic code-project monorepo.
+            Keep all issue artifacts and implementation changes inside `${{ steps.prep-dir.outputs.project_dir }}`.
+            Do not modify unrelated projects.
+
+      - name: Create or Update Pull Request
+        id: create-pr
+        if: fromJson(steps.check-status.outputs.result).shouldTrigger && (fromJson(steps.check-status.outputs.result).actionType == 'implement' || fromJson(steps.check-status.outputs.result).actionType == 'revise')
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.prep-dir.outputs.branch_name }}
+          base: ${{ github.event.repository.default_branch }}
+          commit-message: "Issue #${{ fromJson(steps.check-status.outputs.result).issueNumber }}: ${{ fromJson(steps.check-status.outputs.result).actionType }} updates"
+          title: "Issue #${{ fromJson(steps.check-status.outputs.result).issueNumber }}: ${{ fromJson(steps.check-status.outputs.result).issueTitle }}"
+          body: |
+            Auto-generated by workflow stage `${{ fromJson(steps.check-status.outputs.result).actionType }}`.
+
+            - Issue: #${{ fromJson(steps.check-status.outputs.result).issueNumber }}
+            - Project dir: `${{ steps.prep-dir.outputs.project_dir }}`
+            - Branch: `${{ steps.prep-dir.outputs.branch_name }}`
+          add-paths: |
+            ${{ steps.prep-dir.outputs.project_dir }}
+
+      - name: Add PR Comment
+        if: steps.create-pr.outputs.pull-request-number != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = ${{ fromJson(steps.check-status.outputs.result).issueNumber }};
+            const prNumber = '${{ steps.create-pr.outputs.pull-request-number }}';
+            const prUrl = '${{ steps.create-pr.outputs.pull-request-url }}';
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: `✅ Opened/updated PR #${prNumber}: ${prUrl}`
+            });
+
+      - name: Add Skip Comment
+        if: fromJson(steps.check-status.outputs.result).skip
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = ${{ fromJson(steps.check-status.outputs.result).issueNumber || 0 }};
+            const reason = `${{ fromJson(steps.check-status.outputs.result).reason || '' }}`;
+            if (!issueNumber) {
+              return;
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: `ℹ️ Workflow stage skipped: ${reason}`
+            });
