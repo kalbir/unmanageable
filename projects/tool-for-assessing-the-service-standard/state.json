@@ -1,0 +1,13 @@
+{
+  "issue_number": 2,
+  "issue_title": "Tool for assessing the service standard",
+  "project_slug": "tool-for-assessing-the-service-standard",
+  "project_dir": "projects/tool-for-assessing-the-service-standard",
+  "current_stage": "plan",
+  "branch": "claude/issue-2-20260227-2324",
+  "updated_at": "20260227T232500Z",
+  "planning_complete": true,
+  "decisions_received": true,
+  "technology_stack": "Go",
+  "deployment_model": "CLI"
+}
