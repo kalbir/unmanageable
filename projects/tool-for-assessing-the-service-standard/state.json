@@ -1,0 +1,19 @@
+{
+  "issue_number": 2,
+  "issue_title": "Tool for assessing the service standard",
+  "project_slug": "tool-for-assessing-the-service-standard",
+  "project_dir": "projects/tool-for-assessing-the-service-standard",
+  "current_stage": "plan",
+  "branch": "codex/issue-2-tool-for-assessing-the-service-standard",
+  "updated_at": "20260227T163130Z",
+  "stages_completed": [],
+  "next_stage": "design",
+  "blockers": [],
+  "decisions_needed": [
+    "Programming language/framework selection",
+    "Deployment model (CLI vs web service)",
+    "Scope of automated assessment (which standard points)",
+    "Scoring methodology",
+    "Legal/policy clearance for automated testing"
+  ]
+}
