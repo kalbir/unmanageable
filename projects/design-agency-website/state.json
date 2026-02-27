@@ -1,0 +1,23 @@
+{
+  "issue_number": 1,
+  "issue_title": "Design Agency Website",
+  "project_slug": "design-agency-website",
+  "project_dir": "projects/design-agency-website",
+  "current_stage": "design",
+  "branch": "codex/issue-1-design-agency-website",
+  "updated_at": "20260227T075545Z",
+  "design": {
+    "completed": true,
+    "architecture_doc": "design/architecture.md",
+    "files_to_create": [
+      "src/index.html",
+      "src/styles/main.css",
+      "src/scripts/main.js"
+    ],
+    "design_system": {
+      "primary_color": "#FF006E",
+      "font_display": "Inter Tight",
+      "font_body": "Inter"
+    }
+  }
+}
