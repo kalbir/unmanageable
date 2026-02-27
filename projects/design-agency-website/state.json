@@ -1,0 +1,21 @@
+{
+  "issue_number": 1,
+  "issue_title": "Design Agency Website",
+  "project_slug": "design-agency-website",
+  "project_dir": "projects/design-agency-website",
+  "current_stage": "implement",
+  "branch": "claude/issue-1-20260227-0805",
+  "updated_at": "20260227T080600Z",
+  "implementation": {
+    "status": "complete",
+    "files": [
+      "src/index.html",
+      "src/main.css",
+      "src/main.js"
+    ],
+    "tests": [
+      "tests/carousel.test.js"
+    ],
+    "notes": "implementation/implementation-notes.md"
+  }
+}

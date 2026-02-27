@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORMA — Design Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@100;300;400;700;900&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a href="#" class="nav__logo">FORMA</a>
+    <ul class="nav__links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#values">Values</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="hero" id="hero" aria-label="Hero">
+      <div class="hero__eyebrow">Design Studio — Est. 2019</div>
+      <h1 class="hero__headline">
+        <span class="hero__line">We shape</span>
+        <span class="hero__line hero__line--accent">bold ideas</span>
+        <span class="hero__line">into form.</span>
+      </h1>
+      <p class="hero__sub">Brand. Digital. Space. We make things that matter.</p>
+      <a href="#work" class="btn btn--primary" aria-label="See our work">See Our Work</a>
+    </section>
+
+    <section class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Brand Identity</span>
+        <span aria-hidden="true">·</span>
+        <span>Digital Design</span>
+        <span aria-hidden="true">·</span>
+        <span>Motion</span>
+        <span aria-hidden="true">·</span>
+        <span>Typography</span>
+        <span aria-hidden="true">·</span>
+        <span>Spatial Design</span>
+        <span aria-hidden="true">·</span>
+        <span>Strategy</span>
+        <span aria-hidden="true">·</span>
+        <span>Brand Identity</span>
+        <span aria-hidden="true">·</span>
+        <span>Digital Design</span>
+        <span aria-hidden="true">·</span>
+        <span>Motion</span>
+        <span aria-hidden="true">·</span>
+        <span>Typography</span>
+        <span aria-hidden="true">·</span>
+        <span>Spatial Design</span>
+        <span aria-hidden="true">·</span>
+        <span>Strategy</span>
+        <span aria-hidden="true">·</span>
+      </div>
+    </section>
+
+    <section class="work" id="work" aria-label="Selected work">
+      <div class="section-header">
+        <span class="section-label">Selected Work</span>
+        <h2 class="section-title">Projects that<br>push limits.</h2>
+      </div>
+      <div class="work__grid">
+        <article class="work-card work-card--large" tabindex="0">
+          <div class="work-card__number">01</div>
+          <div class="work-card__content">
+            <h3 class="work-card__title">Meridian Bank</h3>
+            <p class="work-card__type">Brand Identity / Digital</p>
+            <p class="work-card__desc">A full identity overhaul for a challenger bank entering five new markets. Simplicity as ambition.</p>
+          </div>
+          <div class="work-card__tag">2024</div>
+        </article>
+        <article class="work-card" tabindex="0">
+          <div class="work-card__number">02</div>
+          <div class="work-card__content">
+            <h3 class="work-card__title">Veld Festival</h3>
+            <p class="work-card__type">Motion / Spatial</p>
+            <p class="work-card__desc">Kinetic branding for a music festival that refuses to be defined by genre.</p>
+          </div>
+          <div class="work-card__tag">2024</div>
+        </article>
+        <article class="work-card" tabindex="0">
+          <div class="work-card__number">03</div>
+          <div class="work-card__content">
+            <h3 class="work-card__title">Ōura Health</h3>
+            <p class="work-card__type">Digital / Strategy</p>
+            <p class="work-card__desc">A product design sprint that turned complex health data into moments of clarity.</p>
+          </div>
+          <div class="work-card__tag">2023</div>
+        </article>
+        <article class="work-card" tabindex="0">
+          <div class="work-card__number">04</div>
+          <div class="work-card__content">
+            <h3 class="work-card__title">Stave Architecture</h3>
+            <p class="work-card__type">Brand Identity</p>
+            <p class="work-card__desc">Building a visual language for a firm that believes form and function are the same word.</p>
+          </div>
+          <div class="work-card__tag">2023</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="values" id="values" aria-label="Our values">
+      <div class="section-header">
+        <span class="section-label">What We Believe</span>
+        <h2 class="section-title">Design is<br>a position.</h2>
+      </div>
+
+      <div class="values__container" role="region" aria-label="Values carousel" aria-live="polite">
+        <div class="values__track" id="valuesTrack" role="list">
+          <div class="value-slide" role="listitem" data-index="0" aria-hidden="false">
+            <div class="value-slide__number">01</div>
+            <h3 class="value-slide__title">Clarity<br>over noise.</h3>
+            <p class="value-slide__body">We strip away everything that doesn't serve the idea. Every element on a page earns its place or it doesn't exist.</p>
+          </div>
+          <div class="value-slide" role="listitem" data-index="1" aria-hidden="true">
+            <div class="value-slide__number">02</div>
+            <h3 class="value-slide__title">Tension<br>creates interest.</h3>
+            <p class="value-slide__body">We juxtapose scale, weight and space deliberately. Discomfort handled well becomes distinction.</p>
+          </div>
+          <div class="value-slide" role="listitem" data-index="2" aria-hidden="true">
+            <div class="value-slide__number">03</div>
+            <h3 class="value-slide__title">Type<br>does the work.</h3>
+            <p class="value-slide__body">Typography is not decoration — it is the architecture of meaning. We treat every typeface choice as a structural decision.</p>
+          </div>
+          <div class="value-slide" role="listitem" data-index="3" aria-hidden="true">
+            <div class="value-slide__number">04</div>
+            <h3 class="value-slide__title">Space<br>is content.</h3>
+            <p class="value-slide__body">White space is not emptiness. It is the pause that gives meaning to what surrounds it. We design the negative as carefully as the positive.</p>
+          </div>
+          <div class="value-slide" role="listitem" data-index="4" aria-hidden="true">
+            <div class="value-slide__number">05</div>
+            <h3 class="value-slide__title">Systems<br>outlast trends.</h3>
+            <p class="value-slide__body">We build design systems, not one-off solutions. A strong system adapts without breaking. That is resilience.</p>
+          </div>
+        </div>
+
+        <div class="values__nav" role="group" aria-label="Value navigation">
+          <button class="values__btn values__btn--prev" id="valuePrev" aria-label="Previous value" disabled>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="values__counter">
+            <span id="valueCurrentLabel" class="values__current">01</span>
+            <span class="values__sep">/</span>
+            <span class="values__total">05</span>
+          </div>
+          <button class="values__btn values__btn--next" id="valueNext" aria-label="Next value">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="values__progress" role="group" aria-label="Value progress indicators">
+          <button class="values__dot values__dot--active" data-target="0" aria-label="Value 1" aria-current="true"></button>
+          <button class="values__dot" data-target="1" aria-label="Value 2" aria-current="false"></button>
+          <button class="values__dot" data-target="2" aria-label="Value 3" aria-current="false"></button>
+          <button class="values__dot" data-target="3" aria-label="Value 4" aria-current="false"></button>
+          <button class="values__dot" data-target="4" aria-label="Value 5" aria-current="false"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="about" aria-label="About FORMA">
+      <div class="about__grid">
+        <div class="about__left">
+          <span class="section-label">About the Studio</span>
+          <p class="about__statement">We are a small team of designers, strategists and typographers who believe the best design solves for tomorrow.</p>
+        </div>
+        <div class="about__right">
+          <dl class="about__stats">
+            <div class="about__stat">
+              <dt class="about__stat-num">47</dt>
+              <dd class="about__stat-label">Clients Served</dd>
+            </div>
+            <div class="about__stat">
+              <dt class="about__stat-num">12</dt>
+              <dd class="about__stat-label">Awards Won</dd>
+            </div>
+            <div class="about__stat">
+              <dt class="about__stat-num">6</dt>
+              <dd class="about__stat-label">Years Operating</dd>
+            </div>
+            <div class="about__stat">
+              <dt class="about__stat-num">3</dt>
+              <dd class="about__stat-label">Continents</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-label="Contact">
+      <div class="contact__inner">
+        <span class="section-label">Let's Talk</span>
+        <h2 class="contact__title">Have a project<br>in mind?</h2>
+        <a href="mailto:hello@forma.studio" class="btn btn--outline">hello@forma.studio</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <span class="footer__logo">FORMA</span>
+      <p class="footer__copy">&copy; 2025 FORMA Design Studio. All rights reserved.</p>
+      <ul class="footer__social">
+        <li><a href="#" aria-label="Instagram">IG</a></li>
+        <li><a href="#" aria-label="LinkedIn">LI</a></li>
+        <li><a href="#" aria-label="Dribbble">DR</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
