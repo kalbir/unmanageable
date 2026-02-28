@@ -52,6 +52,16 @@ projects/<project-slug>/
 - All automation output for an issue is constrained to `projects/<slug>/`.
 - `status:implement` creates/updates a branch `codex/issue-<number>-<slug>` and opens/updates a PR against your default branch.
 
+## Answering Plan Questions
+
+If `projects/<slug>/planning/plan.md` includes open questions:
+
+1. Add a `## Decisions / Answers` section to the GitHub issue body.
+2. List each answer as numbered items that map to the plan questions.
+3. Re-run planning by removing and re-adding `status:plan`.
+
+This is the most reliable way to get your answers incorporated, since the plan stage reads from the current issue body.
+
 ## Key Files
 
 - Workflow: `.github/workflows/claude-code-projects.yml`
