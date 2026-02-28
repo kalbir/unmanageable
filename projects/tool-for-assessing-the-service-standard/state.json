@@ -1,0 +1,23 @@
+{
+  "issue_number": 2,
+  "issue_title": "Tool for assessing the service standard",
+  "project_slug": "tool-for-assessing-the-service-standard",
+  "project_dir": "projects/tool-for-assessing-the-service-standard",
+  "current_stage": "design",
+  "branch": "claude/issue-2-20260228-0008",
+  "updated_at": "20260228T001000Z",
+  "design": {
+    "completed": true,
+    "architecture_doc": "design/architecture.md",
+    "technology_stack": "Go",
+    "deployment_model": "CLI",
+    "scoring_system": "graded",
+    "key_components": [
+      "Assessment Engine",
+      "Plugin Architecture",
+      "Browser Automation",
+      "Scoring Engine",
+      "Report Generators"
+    ]
+  }
+}
