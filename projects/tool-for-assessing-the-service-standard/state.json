@@ -1,0 +1,10 @@
+{
+  "issue_number": 2,
+  "issue_title": "Tool for assessing the service standard",
+  "project_slug": "tool-for-assessing-the-service-standard",
+  "project_dir": "projects/tool-for-assessing-the-service-standard",
+  "current_stage": "implement",
+  "stage_status": "complete",
+  "branch": "claude/issue-2-20260228-0921",
+  "updated_at": "20260228T092200Z"
+}
