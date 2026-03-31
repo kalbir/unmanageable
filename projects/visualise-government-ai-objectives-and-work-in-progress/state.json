@@ -1,0 +1,16 @@
+{
+  "issue_number": 4,
+  "issue_title": "Visualise government ai objectives and work In progress",
+  "project_slug": "visualise-government-ai-objectives-and-work-in-progress",
+  "project_dir": "projects/visualise-government-ai-objectives-and-work-in-progress",
+  "current_stage": "plan",
+  "branch": "claude/issue-4-20260331-2134",
+  "updated_at": "20260331T213500Z",
+  "plan_completed": true,
+  "plan_summary": {
+    "tasks_count": 7,
+    "open_questions_count": 7,
+    "main_deliverable": "Web-based UK government AI initiatives visualization",
+    "deployment_target": "GitHub Pages or similar static hosting"
+  }
+}
