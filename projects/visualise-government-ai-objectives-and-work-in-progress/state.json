@@ -26,5 +26,16 @@
     "update_frequency": "Weekly via GitHub Actions",
     "data_sources": ["gov.uk", "department blogs", "GDS AI Studio", "i.AI"],
     "primary_filters": ["department", "timeframe", "category", "status"]
+  "current_stage": "revise",
+  "branch": "claude/issue-4-20260401-1131",
+  "updated_at": "20260401T113500Z",
+  "resolved_decisions": {
+    "data_format": "json",
+    "visualisation_library": "chart.js",
+    "deployment": "vercel",
+    "update_frequency": "weekly",
+    "data_sources": ["gov.uk", "department-blogs", "gds-ai-studio", "i.ai"],
+    "categories": "to-be-proposed-in-design",
+    "filters": ["department", "timeframe", "tbd-1", "tbd-2"]
   }
 }
