@@ -1,0 +1,291 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-04-01",
+  "initiatives": [
+    {
+      "id": "ai-opportunities-action-plan",
+      "title": "AI Opportunities Action Plan",
+      "description": "Government action plan to seize AI opportunities, drive economic growth, and ensure the UK is a global leader in AI. Covers AI adoption across public services, research infrastructure, and skills.",
+      "status": "in-progress",
+      "department": "DSIT",
+      "category": "Economic Growth",
+      "tags": ["action-plan", "ai-strategy", "economic-growth"],
+      "announcedDate": "2025-01-13",
+      "lastUpdated": "2025-01-13",
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/ai-opportunities-action-plan",
+          "title": "AI Opportunities Action Plan",
+          "date": "2025-01-13",
+          "type": "policy-document"
+        }
+      ]
+    },
+    {
+      "id": "national-ai-strategy",
+      "title": "National AI Strategy",
+      "description": "10-year plan to make the UK a global AI superpower. Focuses on research and development, skills, and infrastructure. Sets out plan for responsible AI development.",
+      "status": "in-progress",
+      "department": "DSIT",
+      "category": "Research & Innovation",
+      "tags": ["strategy", "10-year-plan", "ai-superpower"],
+      "announcedDate": "2021-09-22",
+      "lastUpdated": "2023-06-01",
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/national-ai-strategy",
+          "title": "National AI Strategy",
+          "date": "2021-09-22",
+          "type": "policy-document"
+        }
+      ]
+    },
+    {
+      "id": "frontier-ai-safety",
+      "title": "AI Safety Institute (now AISI)",
+      "description": "Established to evaluate risks from advanced AI models. Conducts safety evaluations of frontier AI systems and publishes research on AI safety techniques.",
+      "status": "in-progress",
+      "department": "DSIT",
+      "category": "Regulation & Safety",
+      "tags": ["ai-safety", "frontier-ai", "evaluation"],
+      "announcedDate": "2023-10-26",
+      "lastUpdated": "2024-03-01",
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/organisations/ai-safety-institute",
+          "title": "AI Safety Institute launch",
+          "date": "2023-10-26",
+          "type": "announcement"
+        }
+      ]
+    },
+    {
+      "id": "nhs-ai-lab",
+      "title": "NHS AI Lab",
+      "description": "NHS programme to accelerate AI adoption in health and care. Evaluates AI tools, supports deployment, and runs the AI and Digital Regulations Service for health and social care.",
+      "status": "in-progress",
+      "department": "DHSC",
+      "category": "Healthcare",
+      "tags": ["nhs", "health", "medical-ai"],
+      "announcedDate": "2019-08-08",
+      "lastUpdated": "2024-01-01",
+      "sources": [
+        {
+          "url": "https://www.nhsx.nhs.uk/ai-and-data/",
+          "title": "NHS AI Lab launch",
+          "date": "2019-08-08",
+          "type": "announcement"
+        }
+      ]
+    },
+    {
+      "id": "gds-ai-assurance",
+      "title": "GDS AI Assurance and Standards",
+      "description": "GDS AI Studio work on building shared AI components, patterns, and standards for government services. Includes AI assurance frameworks and guidance for civil servants.",
+      "status": "in-progress",
+      "department": "GDS",
+      "category": "Digital Government",
+      "tags": ["standards", "assurance", "shared-components"],
+      "announcedDate": "2024-01-01",
+      "lastUpdated": "2025-01-01",
+      "sources": [
+        {
+          "url": "https://gds.blog.gov.uk/category/ai/",
+          "title": "GDS AI blog",
+          "date": "2024-01-01",
+          "type": "blog"
+        }
+      ]
+    },
+    {
+      "id": "iai-incubator",
+      "title": "i.AI - Incubator for Artificial Intelligence",
+      "description": "Central government team applying AI to improve public services. Partners with departments on specific AI use cases, provides technical expertise, and builds reusable AI tools.",
+      "status": "in-progress",
+      "department": "i.AI",
+      "category": "Digital Government",
+      "tags": ["central-government", "use-cases", "technical-delivery"],
+      "announcedDate": "2023-04-01",
+      "lastUpdated": "2025-03-01",
+      "sources": [
+        {
+          "url": "https://ai.gov.uk",
+          "title": "i.AI - Incubator for Artificial Intelligence",
+          "date": "2023-04-01",
+          "type": "announcement"
+        }
+      ]
+    },
+    {
+      "id": "ai-in-education",
+      "title": "AI in Education: Generative AI framework",
+      "description": "DfE framework for use of generative AI in education settings. Provides guidance for schools and teachers on responsible AI use. Plans for AI tools to reduce teacher workload.",
+      "status": "in-progress",
+      "department": "DfE",
+      "category": "Education",
+      "tags": ["schools", "teachers", "generative-ai", "workload"],
+      "announcedDate": "2023-12-01",
+      "lastUpdated": "2024-04-01",
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/generative-artificial-intelligence-in-education",
+          "title": "Generative AI in Education",
+          "date": "2023-12-01",
+          "type": "policy-document"
+        }
+      ]
+    },
+    {
+      "id": "compute-strategy",
+      "title": "AI Compute Strategy - Public Compute",
+      "description": "Government commitment to build public compute infrastructure including ISAMBARD-AI supercomputer and AI Research Resource. Aims to give UK researchers and businesses access to world-class compute.",
+      "status": "in-progress",
+      "department": "DSIT",
+      "category": "Infrastructure",
+      "tags": ["supercomputer", "compute", "isambard", "research"],
+      "announcedDate": "2023-03-15",
+      "lastUpdated": "2024-11-01",
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/news/government-invests-900-million-to-deliver-uks-most-powerful-ai-supercomputer",
+          "title": "Government invests £900 million for AI supercomputer",
+          "date": "2023-03-15",
+          "type": "announcement"
+        }
+      ]
+    },
+    {
+      "id": "police-ai-facial-recognition",
+      "title": "Police Use of Live Facial Recognition AI",
+      "description": "Metropolitan Police and other forces deploying live facial recognition technology. Parliament has debated standards and oversight. Home Office has committed to a national policing AI strategy.",
+      "status": "in-progress",
+      "department": "Home Office",
+      "category": "Defence & Security",
+      "tags": ["facial-recognition", "policing", "surveillance"],
+      "announcedDate": "2023-07-01",
+      "lastUpdated": "2024-09-01",
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/national-policing-digital-data-and-technology-strategy-2020-2030",
+          "title": "National Policing Digital Strategy",
+          "date": "2023-07-01",
+          "type": "policy-document"
+        }
+      ]
+    },
+    {
+      "id": "hmrc-ai-compliance",
+      "title": "HMRC AI for Tax Compliance",
+      "description": "HMRC using AI to detect tax fraud and improve compliance. Machine learning models identify high-risk cases for investigation and reduce error rates in self-assessment.",
+      "status": "in-progress",
+      "department": "HMRC",
+      "category": "Public Services",
+      "tags": ["tax", "compliance", "fraud-detection", "machine-learning"],
+      "announcedDate": "2022-03-01",
+      "lastUpdated": "2024-06-01",
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/organisations/hm-revenue-customs/about/research",
+          "title": "HMRC Research and Analysis",
+          "date": "2022-03-01",
+          "type": "blog"
+        }
+      ]
+    },
+    {
+      "id": "pro-innovation-regulation",
+      "title": "Pro-Innovation AI Regulation",
+      "description": "UK White Paper on AI regulation: context-based, not sector-agnostic. Assigns existing regulators responsibility for AI in their domains rather than creating a single AI regulator.",
+      "status": "in-progress",
+      "department": "DSIT",
+      "category": "Regulation & Safety",
+      "tags": ["regulation", "white-paper", "principles-based"],
+      "announcedDate": "2023-03-29",
+      "lastUpdated": "2024-02-06",
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/ai-regulation-a-pro-innovation-approach",
+          "title": "A pro-innovation approach to AI regulation",
+          "date": "2023-03-29",
+          "type": "policy-document"
+        }
+      ]
+    },
+    {
+      "id": "dwp-ai-benefits",
+      "title": "DWP AI for Benefits Processing",
+      "description": "DWP exploring AI tools to speed up Universal Credit claim processing and reduce fraud. Pilot projects using ML to flag potential fraud and automate verification steps.",
+      "status": "objective",
+      "department": "DWP",
+      "category": "Public Services",
+      "tags": ["universal-credit", "benefits", "fraud", "automation"],
+      "announcedDate": "2024-05-01",
+      "lastUpdated": "2024-05-01",
+      "sources": [
+        {
+          "url": "https://dwpdigital.blog.gov.uk",
+          "title": "DWP Digital Blog",
+          "date": "2024-05-01",
+          "type": "blog"
+        }
+      ]
+    },
+    {
+      "id": "mod-ai-defence",
+      "title": "Defence AI Strategy",
+      "description": "Ministry of Defence strategy for AI adoption across defence. Covers autonomous systems, intelligence analysis, logistics, and cyber defence applications of AI.",
+      "status": "in-progress",
+      "department": "MoD",
+      "category": "Defence & Security",
+      "tags": ["defence", "autonomous-systems", "military-ai"],
+      "announcedDate": "2022-06-15",
+      "lastUpdated": "2023-01-01",
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/defence-artificial-intelligence-strategy",
+          "title": "Defence Artificial Intelligence Strategy",
+          "date": "2022-06-15",
+          "type": "policy-document"
+        }
+      ]
+    },
+    {
+      "id": "ai-growth-zones",
+      "title": "AI Growth Zones",
+      "description": "Plan to designate AI Growth Zones across the UK to accelerate AI infrastructure development including data centres. Fast-track planning for AI-enabling infrastructure.",
+      "status": "objective",
+      "department": "DSIT",
+      "category": "Infrastructure",
+      "tags": ["growth-zones", "data-centres", "planning"],
+      "announcedDate": "2025-01-13",
+      "lastUpdated": "2025-01-13",
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/ai-opportunities-action-plan",
+          "title": "AI Opportunities Action Plan - AI Growth Zones",
+          "date": "2025-01-13",
+          "type": "policy-document"
+        }
+      ]
+    },
+    {
+      "id": "ai-skills-workforce",
+      "title": "AI Skills and Workforce Development",
+      "description": "Commitments to grow AI talent pipeline including AI conversion courses, Turing fellowships, and expanding MSc AI programmes. Target to train more AI specialists.",
+      "status": "in-progress",
+      "department": "DSIT",
+      "category": "Education",
+      "tags": ["skills", "workforce", "turing", "conversion-courses"],
+      "announcedDate": "2022-07-26",
+      "lastUpdated": "2024-01-01",
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/national-ai-strategy",
+          "title": "National AI Strategy - Skills pillar",
+          "date": "2022-07-26",
+          "type": "policy-document"
+        }
+      ]
+    }
+  ]
+}
