@@ -3,6 +3,29 @@
   "issue_title": "Visualise government ai objectives and work In progress",
   "project_slug": "visualise-government-ai-objectives-and-work-in-progress",
   "project_dir": "projects/visualise-government-ai-objectives-and-work-in-progress",
+  "current_stage": "design",
+  "branch": "claude/issue-4-20260401-1144",
+  "updated_at": "20260401T114500Z",
+  "design_phase": {
+    "completed_at": "20260401T114500Z",
+    "architecture_defined": true,
+    "technology_stack": {
+      "framework": "Next.js",
+      "visualization": "Chart.js",
+      "data_format": "JSON",
+      "deployment": "Vercel",
+      "testing": ["Jest", "React Testing Library", "Cypress"]
+    },
+    "implementation_phases": 6,
+    "estimated_weeks": 4
+  },
+  "resolved_decisions": {
+    "data_format": "JSON",
+    "visualization_library": "Chart.js",
+    "deployment_platform": "Vercel",
+    "update_frequency": "Weekly via GitHub Actions",
+    "data_sources": ["gov.uk", "department blogs", "GDS AI Studio", "i.AI"],
+    "primary_filters": ["department", "timeframe", "category", "status"]
   "current_stage": "revise",
   "branch": "claude/issue-4-20260401-1131",
   "updated_at": "20260401T113500Z",
