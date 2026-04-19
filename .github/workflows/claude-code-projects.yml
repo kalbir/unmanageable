@@ -57,6 +57,13 @@ jobs:
               'status:revise',
             ];
 
+            const actionLabels = [
+              'action:triage',
+              'action:draft',
+            ];
+
+            const allWorkflowLabels = [...statusLabels, ...actionLabels];
+
             let actionType = null;
             let shouldTrigger = false;
             let skip = false;
@@ -73,6 +80,9 @@ jobs:
               if (statusLabels.includes(newLabel)) {
                 actionType = newLabel.replace('status:', '');
                 shouldTrigger = true;
+              } else if (actionLabels.includes(newLabel)) {
+                actionType = newLabel.replace('action:', '');
+                shouldTrigger = true;
               }
             }
 
@@ -85,9 +95,14 @@ jobs:
 
               latestCommentBody = payload.comment?.body || '';
               const hasReviseLabel = labels.includes('status:revise');
+              const hasDraftLabel = labels.includes('action:draft');
               const commentWantsRevise = /^\/revise\b/i.test(latestCommentBody.trim());
 
-              if (hasReviseLabel || commentWantsRevise) {
+              if (hasDraftLabel) {
+                // Any user comment on an action:draft issue re-triggers drafting
+                actionType = 'draft';
+                shouldTrigger = true;
+              } else if (hasReviseLabel || commentWantsRevise) {
                 actionType = 'revise';
                 shouldTrigger = true;
               }
@@ -115,6 +130,9 @@ jobs:
               titleSlug,
               latestCommentBody,
               statusLabels,
+              actionLabels,
+              allWorkflowLabels,
+              isActionWorkflow: actionLabels.some(l => labels.includes(l)) || (newLabel && actionLabels.includes(newLabel)),
             };
           result-encoding: json
 
@@ -126,9 +144,12 @@ jobs:
             const issue = context.payload.issue;
             const newLabel = context.payload.label?.name;
             const labels = (issue.labels || []).map(label => label.name);
-            const statusLabels = ['status:plan', 'status:design', 'status:test', 'status:implement', 'status:revise'];
+            const allWorkflowLabels = [
+              'status:plan', 'status:design', 'status:test', 'status:implement', 'status:revise',
+              'action:triage', 'action:draft',
+            ];
 
-            for (const label of statusLabels) {
+            for (const label of allWorkflowLabels) {
               if (label !== newLabel && labels.includes(label)) {
                 await github.rest.issues.removeLabel({
                   owner: context.repo.owner,
@@ -171,6 +192,16 @@ jobs:
               echo "tools=Bash(*),Read(*),Write(*),Edit(*),MultiEdit(*),Grep(*)" >> "$GITHUB_OUTPUT"
               echo "prompt_template=.github/prompts/revise.md" >> "$GITHUB_OUTPUT"
               ;;
+            "triage")
+              echo "model=claude-opus-4-1-20250805" >> "$GITHUB_OUTPUT"
+              echo "tools=Read(*),Write(*.md,*.json),Edit(*.md,*.json),Grep(*)" >> "$GITHUB_OUTPUT"
+              echo "prompt_template=.github/prompts/triage.md" >> "$GITHUB_OUTPUT"
+              ;;
+            "draft")
+              echo "model=claude-sonnet-4-6" >> "$GITHUB_OUTPUT"
+              echo "tools=Read(*),Write(*),Edit(*),Grep(*)" >> "$GITHUB_OUTPUT"
+              echo "prompt_template=.github/prompts/draft.md" >> "$GITHUB_OUTPUT"
+              ;;
             *)
               echo "model=claude-sonnet-4-6" >> "$GITHUB_OUTPUT"
               echo "tools=Read(*),Grep(*)" >> "$GITHUB_OUTPUT"
@@ -189,19 +220,36 @@ jobs:
           ACTION_TYPE: ${{ fromJson(steps.check-status.outputs.result).actionType }}
           LATEST_COMMENT_BODY: ${{ fromJson(steps.check-status.outputs.result).latestCommentBody }}
         run: |
-          PROJECT_DIR="projects/${TITLE_SLUG}"
+          # Route action:* labels to work/, status:* labels to projects/
+          IS_ACTION_WORKFLOW="false"
+          if [[ "${ACTION_TYPE}" == "triage" || "${ACTION_TYPE}" == "draft" ]]; then
+            IS_ACTION_WORKFLOW="true"
+          fi
+
+          if [[ "${IS_ACTION_WORKFLOW}" == "true" ]]; then
+            PROJECT_DIR="work/${TITLE_SLUG}"
+          else
+            PROJECT_DIR="projects/${TITLE_SLUG}"
+          fi
           TIMESTAMP="$(date -u +'%Y%m%dT%H%M%SZ')"
           BRANCH_NAME="codex/issue-${ISSUE_NUMBER}-${TITLE_SLUG}"
 
-          mkdir -p "${PROJECT_DIR}/context"
-          mkdir -p "${PROJECT_DIR}/planning"
-          mkdir -p "${PROJECT_DIR}/design"
-          mkdir -p "${PROJECT_DIR}/testing"
-          mkdir -p "${PROJECT_DIR}/implementation"
-          mkdir -p "${PROJECT_DIR}/review"
-          mkdir -p "${PROJECT_DIR}/comments"
-          mkdir -p "${PROJECT_DIR}/src"
-          mkdir -p "${PROJECT_DIR}/tests"
+          if [[ "${IS_ACTION_WORKFLOW}" == "true" ]]; then
+            mkdir -p "${PROJECT_DIR}/context"
+            mkdir -p "${PROJECT_DIR}/triage"
+            mkdir -p "${PROJECT_DIR}/drafts"
+            mkdir -p "${PROJECT_DIR}/comments"
+          else
+            mkdir -p "${PROJECT_DIR}/context"
+            mkdir -p "${PROJECT_DIR}/planning"
+            mkdir -p "${PROJECT_DIR}/design"
+            mkdir -p "${PROJECT_DIR}/testing"
+            mkdir -p "${PROJECT_DIR}/implementation"
+            mkdir -p "${PROJECT_DIR}/review"
+            mkdir -p "${PROJECT_DIR}/comments"
+            mkdir -p "${PROJECT_DIR}/src"
+            mkdir -p "${PROJECT_DIR}/tests"
+          fi
 
           if [ ! -f "${PROJECT_DIR}/context/issue.md" ]; then
             {
@@ -246,7 +294,7 @@ jobs:
             const actionType = '${{ fromJson(steps.check-status.outputs.result).actionType }}';
             const issueNumber = ${{ fromJson(steps.check-status.outputs.result).issueNumber }};
             const marker = `Claude Code ${actionType.charAt(0).toUpperCase() + actionType.slice(1)} Stage`;
-            const emoji = { plan: '🧭', design: '🧱', test: '🧪', implement: '⚙️', revise: '🔁' };
+            const emoji = { plan: '🧭', design: '🧱', test: '🧪', implement: '⚙️', revise: '🔁', triage: '📋', draft: '✏️' };
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
@@ -265,6 +313,7 @@ jobs:
           ACTION_TYPE: ${{ fromJson(steps.check-status.outputs.result).actionType }}
           LATEST_COMMENT_BODY: ${{ fromJson(steps.check-status.outputs.result).latestCommentBody }}
           PROJECT_DIR: ${{ steps.prep-dir.outputs.project_dir }}
+          MODEL: ${{ steps.determine-config.outputs.model }}
         run: |
           TEMPLATE_FILE="${{ steps.determine-config.outputs.prompt_template }}"
           OUTPUT_FILE="/tmp/processed_prompt.md"
@@ -285,13 +334,13 @@ jobs:
           direct_prompt: ${{ steps.process-prompt.outputs.direct_prompt }}
           allowed_tools: ${{ steps.determine-config.outputs.tools }}
           custom_instructions: |
-            This repository is a generic code-project monorepo.
-            Keep all issue artifacts and implementation changes inside `${{ steps.prep-dir.outputs.project_dir }}`.
-            Do not modify unrelated projects.
+            This repository is a monorepo for code projects and non-engineering work items.
+            Keep all issue artifacts and changes inside `${{ steps.prep-dir.outputs.project_dir }}`.
+            Do not modify unrelated projects or work items.
 
       - name: Create or Update Pull Request
         id: create-pr
-        if: fromJson(steps.check-status.outputs.result).shouldTrigger && (fromJson(steps.check-status.outputs.result).actionType == 'implement' || fromJson(steps.check-status.outputs.result).actionType == 'revise')
+        if: fromJson(steps.check-status.outputs.result).shouldTrigger && (fromJson(steps.check-status.outputs.result).actionType == 'implement' || fromJson(steps.check-status.outputs.result).actionType == 'revise' || fromJson(steps.check-status.outputs.result).actionType == 'draft')
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

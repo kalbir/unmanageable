@@ -1,8 +1,8 @@
 # CLAUDE.md
 
-This repository runs a generic code-project workflow using issue labels.
+This repository runs two issue-label workflows: one for engineering projects and one for non-engineering work.
 
-## Workflow Stages
+## Engineering Workflow Stages
 
 1. `status:plan`
 2. `status:design`
@@ -10,13 +10,21 @@ This repository runs a generic code-project workflow using issue labels.
 4. `status:implement`
 5. `status:revise`
 
+## Action Workflow Stages
+
+1. `action:triage`
+2. `action:draft`
+
 ## Core Rules
 
-- All issue artifacts must live under `projects/<issue-title-kebab-case>/`.
+- Engineering issue artifacts must live under `projects/<issue-title-kebab-case>/`.
+- Action issue artifacts must live under `work/<issue-title-kebab-case>/`.
 - Do not create an `issues/` artifact directory.
 - Keep phase outputs deterministic and explicit.
 - Preserve project-local context in `state.json` and `comments/`.
 - In `implement`, produce code and tests in project-local `src/` and `tests/`.
+- In `draft`, produce output artifacts in work-local `drafts/`.
+- Track cost/usage in `usage.json` for every workflow run.
 
 ## Stage Intent
 
@@ -39,6 +47,14 @@ Goal: execute design + testing strategy, produce working code, and prepare PR-re
 ### Revise Stage
 
 Goal: apply reviewer feedback and tighten deliverables before merge.
+
+### Triage Stage
+
+Goal: analyse the issue, determine what type of work it is, and produce a concrete action brief describing the recommended output.
+
+### Draft Stage
+
+Goal: execute the action brief — produce the output artifact(s) (document, email, presentation, etc.) ready for human review.
 
 ## Quality Bar
 
