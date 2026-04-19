@@ -1,0 +1,12 @@
+{
+  "runs": [
+    {
+      "stage": "draft",
+      "model": "claude-sonnet-4-6",
+      "timestamp": "2026-04-19T12:10:31Z",
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_cost_usd": null
+    }
+  ]
+}
