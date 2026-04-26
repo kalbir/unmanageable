@@ -1,0 +1,22 @@
+{
+  "issue_number": 9,
+  "issue_title": "Daily email and RSS digest",
+  "project_slug": "daily-email-and-rss-digest",
+  "project_dir": "projects/daily-email-and-rss-digest",
+  "current_stage": "design",
+  "branch": "claude/issue-9-20260426-1004",
+  "updated_at": "20260426T100521Z",
+  "design_phase": {
+    "completed": true,
+    "architecture_doc": "design/architecture.md",
+    "implementation_phases": 5,
+    "estimated_days": 10,
+    "key_decisions": {
+      "language": "Python 3.9+",
+      "architecture": "Modular with clear separation of concerns",
+      "sources": ["Gmail API", "RSS/Feedly", "Lobsters", "HackerNews (optional)"],
+      "delivery": "Email via SMTP",
+      "storage": "Local cache and state persistence"
+    }
+  }
+}
