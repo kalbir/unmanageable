@@ -1,0 +1,10 @@
+github.com/cpuguy83/go-md2man/v2 v2.0.3/go.mod h1:qMfny4nJDOAQQJNIZ5LRLVIGaAgpEnEIpXQKsE/N/mA=
+github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
+github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3a3x/n+3K/+HD8omR+cr8jHACxBXiI=
+github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
+github.com/spf13/cobra v1.8.0 h1:7aJaZx1B85qltLMc546zn58bgVOqr/8x7rmKnZi/ZRs=
+github.com/spf13/cobra v1.8.0/go.mod h1:/6GTrnGXV9HjY+aR4k0oJ5tcvakLuG6EuKReYlHNrgE=
+github.com/spf13/pflag v1.0.5 h1:iy+VFUOCP1a+8yFto/drg2CJ5u0yRoB7fZw3DKv/JXA=
+github.com/spf13/pflag v1.0.5/go.mod h1:McXfInJRrz4CZXVZOBLb0bTZqETkiAhM9Iw0y3An2Bg=
+golang.org/x/net v0.24.0 h1:CpABDIMl7CwxZi6NzJCJLLyKLfmMXJptRuSmJ83bJKM=
+golang.org/x/net v0.24.0/go.mod h1:2Q7sJY5mzlzWjKtYUEDkO4/9FXmM3KNvtJBBJPmRwTI=
