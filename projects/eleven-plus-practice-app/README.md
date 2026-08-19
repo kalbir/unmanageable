@@ -4,6 +4,11 @@ A single-file 11+ practice app built for a capable-but-reluctant test-taker prep
 for **Dame Alice Owen's**, **Henrietta Barnett** and similar London super-selectives.
 Designed around **short bursts** and a **10-day plan of ~20-minute sessions**.
 
+The look is a soft **kawaii-London** theme aimed at a 10-year-old girl: candy pastels,
+rounded bubbly type, sparkle rewards on correct answers, and **Biscuit the corgi**
+(with a tiny crown) as an encouraging coach, over a faint pastel London skyline
+(Big Ben, the London Eye, the Shard, Tower Bridge). Full light + dark themes.
+
 ## Use it
 
 - **Open `index.html`** in any browser (desktop or mobile) — it's fully self-contained
@@ -38,7 +43,8 @@ bank never runs out over the 10 days; English draws from curated passages and wo
 ## Tech notes
 
 - One HTML file. No build step, no dependencies, no network calls except Google Fonts
-  (with system-font fallbacks if offline).
+  (Fredoka / Baloo 2 / Quicksand, with rounded system-font fallbacks if offline).
+- The corgi mascot and London skyline are inline SVG (no image files).
 - Light and dark themes (follows the device, with a manual toggle).
 - `sprint.artifact.html` is a content-only copy generated from `index.html` for
   publishing as a Claude Artifact; `index.html` is the canonical standalone source.
